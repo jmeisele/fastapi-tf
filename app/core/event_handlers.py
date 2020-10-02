@@ -2,18 +2,16 @@
 Author: Jason Eisele
 Date: October 1, 2020
 Email: jeisele@shipt.com
-Scope: App for Tensorflow Doggo classifier
+Scope: App for Tensorflow Image classifier
 """
 from typing import Callable
 from fastapi import FastAPI
 from loguru import logger
-from app.core.config import DEFAULT_MODEL_PATH
-from app.services.models import HousePriceModel
+from app.services.models import DoggoModel
 
 
 def _startup_model(app: FastAPI) -> None:
-    model_path = DEFAULT_MODEL_PATH
-    model_instance = HousePriceModel(model_path)
+    model_instance = DoggoModel()
     app.state.model = model_instance
 
 

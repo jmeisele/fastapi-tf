@@ -2,54 +2,53 @@
 Author: Jason Eisele
 Date: October 1, 2020
 Email: jeisele@shipt.com
-Scope: App for Tensorflow Doggo classifier
+Scope: App for Tensorflow Image classifier
 """
-from typing import List
-import joblib
 import numpy as np
 from loguru import logger
+from PIL import Image
+from io import BytesIO
+import tensorflow as tf
+from tensorflow.keras.applications.imagenet_utils import decode_predictions
+    
 
-from app.core.messages import NO_VALID_PAYLOAD
-from app.data_models.payload import (HousePredictionPayload,
-                                                     payload_to_list)
-from app.data_models.prediction import HousePredictionResult
+class DoggoModel(object):
 
-
-class HousePriceModel(object):
-
-    RESULT_UNIT_FACTOR = 100000
-
-    def __init__(self, path):
-        self.path = path
+    def __init__(self):
         self._load_local_model()
 
     def _load_local_model(self):
-        self.model = joblib.load(self.path)
+        self.model = tf.keras.applications.MobileNetV2(weights="imagenet")
+    
+    def _pre_process(self, image):
+        logger.debug('Pre-processing image')
+        # Resize our image
+        image = np.asarray(image.resize((224, 224)))[..., :3]
+        image = np.expand_dims(image, 0)
+        image = image / 127.5 - 1.0
+        return image
 
-    def _pre_process(self, payload: HousePredictionPayload) -> List:
-        logger.debug("Pre-processing payload.")
-        result = np.asarray(payload_to_list(payload)).reshape(1, -1)
-        return result
+    def _predict(self, image):
+        logger.debug('Predicting...')
+        prediction = self.model.predict(image)
+        predictions = decode_predictions(prediction, 2)[0]
+        return predictions
 
-    def _post_process(self, prediction: np.ndarray) -> HousePredictionResult:
-        logger.debug("Post-processing prediction.")
-        result = prediction.tolist()
-        human_readable_unit = result[0] * self.RESULT_UNIT_FACTOR
-        hpp = HousePredictionResult(median_house_value=human_readable_unit)
-        return hpp
+    def _post_process(self, predictions) -> list:
+        logger.debug('Post-processing')
+        response = []
+        for i, res in enumerate(predictions):
+            resp = {}
+            resp['class'] = res[1]
+            resp['confidence'] = f"{res[2]*100:0.2f} %"
+            response.append(resp)
+        return response
 
-    def _predict(self, features: List) -> np.ndarray:
-        logger.debug("Predicting.")
-        prediction_result = self.model.predict(features)
-        return prediction_result
-
-    def predict(self, payload: HousePredictionPayload):
+    def predict(self, payload):
         if payload is None:
             raise ValueError(NO_VALID_PAYLOAD.format(payload))
-
         pre_processed_payload = self._pre_process(payload)
         prediction = self._predict(pre_processed_payload)
         logger.info(prediction)
         post_processed_result = self._post_process(prediction)
-
         return post_processed_result
