@@ -1,16 +1,22 @@
+"""
+Author: Jason Eisele
+Date: October 1, 2020
+Email: jeisele@shipt.com
+Scope: App for Tensorflow Doggo classifier
+"""
 from fastapi import APIRouter, Depends
 from starlette.requests import Request
 
-from fastapi_scaffolding.core import security
+from app.core import security
 
 # Incoming payload data model
-from fastapi_scaffolding.data_models.payload import HousePredictionPayload
+from app.data_models.payload import HousePredictionPayload
 
 # Outbound prediction result data model
-from fastapi_scaffolding.data_models.prediction import HousePredictionResult
+from app.data_models.prediction import HousePredictionResult
 
 # ML Model object itself
-from fastapi_scaffolding.services.models import HousePriceModel
+from app.services.models import HousePriceModel
 
 router = APIRouter()
 
