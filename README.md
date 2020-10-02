@@ -20,4 +20,5 @@ uvicorn "app.main:app" --reload
 2. Go to [http://localhost:8000/docs](http://localhost:8000/docs).
       
 3. You can use the sample image from the `images/goldenretriever.jpg` file when trying out the image prediction model using the API.
-   ![goodboy](./images/goldenretriever.jpg)
+
+![goodboy](./images/goldenretriever.jpg)
