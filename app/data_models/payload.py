@@ -1,4 +1,9 @@
-
+"""
+Author: Jason Eisele
+Date: October 1, 2020
+Email: jeisele@shipt.com
+Scope: App for Tensorflow Doggo classifier
+"""
 from typing import List
 from pydantic import BaseModel
 

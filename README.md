@@ -1,10 +1,6 @@
-# FastAPI Model Server Scaffolding
+# FastAPI Tensorflow Doggo Recognition
 
-Serving machine learning models production-ready, fast, easy and secure powered by FastAPI by [Sebastián Ramírez](https://github.com/tiangolo).
-
-This repository contains a starter app which can be used to speed-up your next machine learning project. 
-
-To experiment and get a feeling on how to use this scaffolding, a sample regression model for house price prediction is included in this project. Follow the installation and setup instructions to run the sample model and serve it aso RESTful API.
+A fast FastAPI (Get it?) by [Sebastián Ramírez](https://github.com/tiangolo) for Doggo image recognition.
 
 ## Requirements
 
@@ -16,12 +12,9 @@ Install the required packages in your local environment (ideally virtualenv, con
 pip install -r requirements
 ``` 
 
-
 ## Setup
-1. Duplicate the `.env.example` file and rename it to `.env` 
 
-
-2. In the `.env` file configure the `API_KEY` entry. The key is used for authenticating our API. <br>
+1. In the `.env` file configure the `API_KEY` entry. The key is used for authenticating our API. <br>
    A sample API key can be generated using Python REPL:
 ```python
 import uuid
@@ -32,7 +25,7 @@ print(str(uuid.uuid4()))
 
 1. Start your  app with: 
 ```bash
-uvicorn fastapi_scaffolding.main:app
+uvicorn "app.main:app" --reload
 ```
 
 2. Go to [http://localhost:8000/docs](http://localhost:8000/docs).

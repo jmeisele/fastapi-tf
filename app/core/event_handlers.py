@@ -1,12 +1,14 @@
-
-
+"""
+Author: Jason Eisele
+Date: October 1, 2020
+Email: jeisele@shipt.com
+Scope: App for Tensorflow Doggo classifier
+"""
 from typing import Callable
-
 from fastapi import FastAPI
 from loguru import logger
-
-from fastapi_scaffolding.core.config import DEFAULT_MODEL_PATH
-from fastapi_scaffolding.services.models import HousePriceModel
+from app.core.config import DEFAULT_MODEL_PATH
+from app.services.models import HousePriceModel
 
 
 def _startup_model(app: FastAPI) -> None:

@@ -1,10 +1,14 @@
+"""
+Author: Jason Eisele
+Date: October 1, 2020
+Email: jeisele@shipt.com
+Scope: App for Tensorflow Doggo classifier
+"""
 from fastapi import FastAPI
 
-from fastapi_scaffolding.api.routes.router import api_router
-from fastapi_scaffolding.core.config import (API_PREFIX, APP_NAME, APP_VERSION,
-                                             IS_DEBUG)
-from fastapi_scaffolding.core.event_handlers import (start_app_handler,
-                                                     stop_app_handler)
+from app.api.routes.router import api_router
+from app.core.config import (API_PREFIX, APP_NAME, APP_VERSION, IS_DEBUG)
+from app.core.event_handlers import (start_app_handler, stop_app_handler)
 
 
 def get_app() -> FastAPI:
